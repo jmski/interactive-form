@@ -108,7 +108,7 @@ activity.addEventListener('change', (e) => {
 
   const activeClass = document.querySelectorAll('.activities input'); // reference to all checkbox input
   for (i = 0; i <activeClass.length; i++) {
-    // check if box is ticked & activity has the same day and time & If it's NOT the same event
+    // check if box is ticked && activity has the same day and time && If target activity is NOT the same event
     if (e.target.checked === true && e.target.dataset.dayAndTime === activeClass[i].dataset.dayAndTime && e.target.name !== activeClass[i].name) {
       activeClass[i].disabled = true; // disable checkbox
       activeClass[i].parentNode.style.color = 'grey'; //grey out the conflicting options
@@ -121,20 +121,38 @@ activity.addEventListener('change', (e) => {
   }
 });
 
-   /**
-    * "Payment Info" section
-    * Display payment sections based on the payment option chosen in the select menu.
-    * 
-    * The "Credit Card" payment option should be selected by default. Display the #credit-card div, and hide the "PayPal" and "Bitcoin" information.
-    * 
-    * Payment option in the select menu should match the payment option displayed on the page.
-    * 
-    * When a user selects the "PayPal" payment option, the PayPal information should display, and the credit card and “Bitcoin” information should be hidden.
-    * 
-    * When a user selects the "Bitcoin" payment option, the Bitcoin information should display, and the credit card and “PayPal” information should be hidden.
-    * 
-    * NOTE: The user should not be able to select the "Select Payment Method" option from the payment select menu, because the user should not be able to submit the form without a chosen payment option.
-    */
+// the credit card payment option is selected by default
+const payment = document.getElementById('payment'); // reference the payment menu
+const paymentOptions = payment.children; //reference all payment options
+creditCard = paymentOptions[1]; //select credit card
+creditCard.selected = 'true'; // set credit card option to default
+paymentOptions[0].style.display = 'none'; // hides 'select payment method' from drop down list
+const creditCardDiv = document.getElementById('credit-card'); // reference to credit card div
+const paypalDiv = document.getElementById('paypal'); // paypal div
+const bitcoinDiv = document.getElementById('bitcoin'); // bitcoin div
+paypalDiv.style.display = 'none'; // hide paypal div by default
+bitcoinDiv.style.display = 'none'; // hide bitcoin div by default
+
+// when user chooses different payment options, it will hide/show payment options accordingly
+payment.addEventListener('change', (e) => {
+  for (let i = 0; i < paymentOptions.length; i++) {
+    if (e.target.value === 'paypal') { // if target chooses paypal
+      creditCardDiv.style.display = 'none';
+      paypalDiv.style.display = 'block'; // show paypal div
+      bitcoinDiv.style.display = 'none';
+
+    } else if (e.target.value === 'bitcoin') { // if target chooses bitcoin
+        creditCardDiv.style.display = 'none';
+        paypalDiv.style.display = 'none';
+        bitcoinDiv.style.display = 'block'; // show bitcoin div
+
+    } else {
+      creditCardDiv.style.display = 'block'; // show credit card div
+      paypalDiv.style.display = 'none';
+      bitcoinDiv.style.display = 'none';
+    }
+  };
+});
 
     /**
      * Form validation
