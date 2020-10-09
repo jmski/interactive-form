@@ -10,24 +10,15 @@ FSJS Project 3 - Interactive form
  * - Jon
 */
 
-
-//When the page first loads, the first text field should be in focus by default.
+// when the page first loads, the first text field should be in focus by default.
 const name = document.getElementById('name');
 name.focus();
 
-/**
- * ”Job Role” section
- * 
- * Include a text field that will be revealed when the "Other" option is selected from the "Job Role" drop down menu.
- * 
- *  Give the field an id of “other-title,” and add the placeholder text of "Your Job Role".
- * 
- * Note: You'll need to add the "Other" job role input directly into the HTML and hide it initially with JS in order to get this feature to work when JS is disabled, which is a requirement below.
- */
-const jobRole = document.getElementById('title');
-const otherTitle = document.getElementById('other-title');
-otherTitle.style.display = 'none'; // hides the other-title field text
+const jobRole = document.getElementById('title'); // reference to drop down menu
+const otherTitle = document.getElementById('other-title'); // reference to other-title field text
+otherTitle.style.display = 'none'; // hides the other-title field text by default
 
+// when user changes job role to 'other' it will hide/show the other-title field text
 jobRole.addEventListener('change', (e) => {
   if(e.target.value === 'other') {
     otherTitle.style.display = 'block'; // shows the other-title field text
@@ -36,38 +27,26 @@ jobRole.addEventListener('change', (e) => {
     }
 });
 
- /**
-  * ”T-Shirt Info” section
-  * 
-  * Until a theme is selected from the “Design” menu, no color options appear in the “Color” drop down and the “Color” field reads “Please select a T-shirt theme”.
-  * 
-  * For the T-Shirt "Color" menu, after a user selects a theme, only display the color options that match the design selected in the "Design" menu.
-  * 
-  * If the user selects "Theme - JS Puns" then the color menu should only display "Cornflower Blue," "Dark Slate Grey," and "Gold."
-  * 
-  * If the user selects "Theme - I ♥ JS" then the color menu should only display "Tomato," "Steel Blue," and "Dim Grey."
-  * 
-  * When a new theme is selected from the "Design" menu, both the "Color" field and drop down menu is updated.
-  */
 const shirtDesign = document.getElementById('design');
-const shirtColorLabel = document.getElementById('shirt-colors');
+const shirtDiv = document.getElementById('shirt-colors');
 const shirtColor = document.getElementById('color');
-const shirtColorOptions = shirtColor.children;
-const placeholder = document.createElement('option');
-shirtColor.insertBefore(placeholder, shirtColorOptions[0]);
-placeholder.text ='Please select a T-shirt theme';
-placeholder.selected = 'true';
-shirtColor.style.display = 'none';  
-shirtColorLabel.style.display = 'none';
+const shirtColorOptions = shirtColor.children; // reference to all children
+const placeholder = document.createElement('option'); //create option tags
+shirtColor.insertBefore(placeholder, shirtColorOptions[0]); //insert placeholder at the top of the drop down menu
+placeholder.text ='Please select a T-shirt theme'; // text value
+placeholder.selected = 'true'; // placeholder default selected first
+shirtColor.style.display = 'none';  // hide color menu
+shirtDiv.style.display = 'none'; // hide color label
 
+// this loop hides all of the color options
 for(let i = 0; i < shirtColorOptions.length; i++) {
-  console.log(shirtColorOptions[i].value);  
-  shirtColorOptions[i].style.display = 'none';
+  shirtColorOptions[i].style.display = 'none'; // hide all options
 
 shirtDesign.addEventListener('change', (e) => {
+  // if the user selects "Theme - JS Puns" then the color menu should only display "Cornflower Blue," "Dark Slate Grey," and "Gold."
   if (e.target.value === 'js puns') {
-    shirtColor.style.display = 'block';
-    shirtColorLabel.style.display = 'block';
+    shirtColor.style.display = 'block'; // display color menu
+    shirtDiv.style.display = 'block'; // display color label
     for (let i = 0; i < shirtColorOptions.length; i++) {
       switch (shirtColorOptions[i].value) {
         case 'cornflowerblue':
@@ -83,9 +62,10 @@ shirtDesign.addEventListener('change', (e) => {
           shirtColorOptions[i].style.display = 'none';
       }
     }
+    // If the user selects "Theme - I ♥ JS" then the color menu should only display "Tomato," "Steel Blue," and "Dim Grey."
   } else if (e.target.value === 'heart js') {
-    shirtColor.style.display = 'block';
-    shirtColorLabel.style.display = 'block';
+    shirtColor.style.display = 'block'; // display color menu
+    shirtDiv.style.display = 'block'; // display color label
     for (let i = 0; i < shirtColorOptions.length; i++) {
       switch (shirtColorOptions[i].value) {
         case 'tomato':
@@ -101,40 +81,45 @@ shirtDesign.addEventListener('change', (e) => {
           shirtColorOptions[i].style.display = 'none';
       }
     }
-  } else {
-    shirtColorOptions[i].style.display = 'none';
-    shirtColor.style.display = 'none';  
-    shirtColorLabel.style.display = 'none';
+  } else { // if there theme is deselected, hide everything 
+    shirtColorOptions[i].style.display = 'none'; // hides color menu options
+    shirtColor.style.display = 'none';  // hide color menu
+    shirtDiv.style.display = 'none'; // hide color label
   }
 });
-
 }
-  // shirtDesign.addEventListener('change', (e) => {
-  //   if(e.target.value === 'js puns') {
-  //     shirtColor.style.display = 'block';
-  //     }
-  //   } else if(e.target.value === 'heart js') {
-  //     shirtColor.style.display = 'block';
 
-  //   } else {
-  //     shirtColor.style.display = 'none';
-  //   }
-  //   });
+const activity = document.querySelector( '.activities' ); // reference to activities section
+const price = document.createElement( 'h2' ); // create a h2 element
+let totalPrice = 0; // total price stored here
+activity.appendChild(price); // add h2 element to parent
+price.innerHTML = `Total: $${totalPrice}`; // create DOM elements to display using template literals
 
-  /**
-   * ”Register for Activities” section
-   * 
-   * Some events are at the same day and time as others. 
-   * 
-   * If the user selects a workshop, don't allow selection of a workshop at the same day and time
-   *    -- you should disable the checkbox and visually indicate that the workshop in the competing time slot isn't available.
-   * 
-   * When a user unchecks an activity, make sure that competing activities (if there are any) are no longer disabled.
-   * 
-   * As a user selects activities, a running total should display below the list of checkboxes.
-   * For example, if the user selects "Main Conference", then Total: $200 should appear.
-   * If they add 1 workshop, the total should change to Total: $300.
-   */
+// when user clicks on tick boxes add/subtract activity cost accordingly
+activity.addEventListener('change', (e) => {
+  const activityPrice = parseInt(e.target.dataset.cost); // get data-cost attribute and convert to int
+  if (e.target.checked) { // if box is checked
+      totalPrice += activityPrice; // add to total price
+      price.innerHTML = `Total: $${totalPrice}`; // update total price
+  } else if (e.target.checked === false) { // if box is unticked
+      totalPrice -= activityPrice; // subtract from total price
+      price.innerHTML = `Total: $${totalPrice}`; // update total price
+  }
+
+  const activeClass = document.querySelectorAll('.activities input'); // reference to all checkbox input
+  for (i = 0; i <activeClass.length; i++) {
+    // check if box is ticked & activity has the same day and time & If it's NOT the same event
+    if (e.target.checked === true && e.target.dataset.dayAndTime === activeClass[i].dataset.dayAndTime && e.target.name !== activeClass[i].name) {
+      activeClass[i].disabled = true; // disable checkbox
+      activeClass[i].parentNode.style.color = 'grey'; //grey out the conflicting options
+      console.log('box ticked');
+    } else if (e.target.checked === false && e.target.dataset.dayAndTime === activeClass[i].dataset.dayAndTime) { // if box is unticked && other activities have the same day and time
+        activeClass[i].disabled = false; // enable checkbox
+        activeClass[i].parentNode.style.color = 'black'; // change greyed out text to black
+        console.log('box unticked');
+    }
+  }
+});
 
    /**
     * "Payment Info" section
