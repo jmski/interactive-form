@@ -34,7 +34,7 @@ const shirtColorOptions = shirtColor.children; // reference to all children
 const placeholder = document.createElement('option'); //create option tag
 shirtColor.insertBefore(placeholder, shirtColorOptions[0]); //insert placeholder at the top of the drop down menu
 placeholder.text ='Please select a T-shirt theme'; // text value
-placeholder.value ='select color'
+placeholder.value ='select color';
 shirtColor.style.display = 'none';  // hide color menu
 shirtDiv.style.display = 'none'; // hide color label
 
@@ -50,7 +50,7 @@ shirtDesign.addEventListener('change', (e) => {
     placeholder.selected = 'true';
     for (let i = 0; i < shirtColorOptions.length; i++) {
       switch (shirtColorOptions[i].value) {
-        case 'select color':
+        case 'select color': // this is the placeholder 
           shirtColorOptions[i].style.display = 'block';
           shirtColorOptions[i].disabled = 'true';
         break;
@@ -74,7 +74,7 @@ shirtDesign.addEventListener('change', (e) => {
     shirtDiv.style.display = 'block'; // display color label
     for (let i = 0; i < shirtColorOptions.length; i++) {
       switch (shirtColorOptions[i].value) {
-        case 'select color':
+        case 'select color': // this is the placeholder 
           shirtColorOptions[i].style.display = 'block';
           shirtColorOptions[i].disabled = 'true';
         break;
@@ -132,7 +132,6 @@ activity.addEventListener('change', (e) => {
   }
 });
 
-
 // the credit card payment option is selected by default
 const paymentMethod = document.getElementById('payment'); // reference the payment menu
 const creditCardDiv = document.getElementById('credit-card'); // reference to credit card div
@@ -146,47 +145,46 @@ paypalDiv.style.display = 'none'; // hide paypal div by default
 const bitcoinDiv = document.getElementById('bitcoin'); // bitcoin div
 bitcoinDiv.style.display = 'none'; // hide bitcoin div by default
 
-
+// event handler will check to see which option the user selects and hides/shows the appropriate payment method
 paymentMethod.addEventListener('change', (e) => {
   if (e.target.value == 'paypal') {
-    paypalDiv.style.display = 'block';
+    paypalDiv.style.display = 'block'; // show paypal div
     creditCardDiv.style.display = 'none';
     bitcoinDiv.style.display = 'none';
   } else if (e.target.value == 'credit card') {
-    creditCardDiv.style.display = 'block';
+    creditCardDiv.style.display = 'block'; // show credit card div
     paypalDiv.style.display = 'none';
     bitcoinDiv.style.display = 'none';
   } else if (e.target.value == 'bitcoin') {
-    bitcoinDiv.style.display = 'block';
+    bitcoinDiv.style.display = 'block'; // show bitcoin div
     paypalDiv.style.display = 'none';
     creditCardDiv.display = 'none';
   }
 });
   
-const nameError = document.createElement('h2');
-nameInput.previousElementSibling.appendChild(nameError);
+const nameError = document.createElement('h2'); // create text element to hold error messages
+nameInput.previousElementSibling.appendChild(nameError); // attach error message before input
 
+// this function checks to see if name is valid
 function isValidName() {
-  if (/^[a-zA-Z\-]+$/.test(nameInput.value) === false && nameInput.value.length > 0) {
+  if (/^[a-zA-Z\-]+$/.test(nameInput.value) === false && nameInput.value.length > 0) { // input doesn't match expression but has input
     nameError.innerHTML = '*Please enter a valid name';
     nameError.style.color = 'black';
     nameError.style.display = 'block';
-    // parentNode.insertBefore(nameError, nameInput);
-    return false;
-  } else if (nameInput.value.length == 0) {
+    return false; 
+  } else if (nameInput.value.length == 0) { // if input is empty
     nameError.innerHTML = '*Name is required';
     nameError.style.color = 'red';
     return false;
-  } else if (/^[a-zA-Z\-]+$/.test(nameInput.value) ===  true && nameInput.value) {
-    nameError.innerHTML = ' ';
+  } else if (/^[a-zA-Z\-]+$/.test(nameInput.value) ===  true && nameInput.value) { // if input matches criteria hide error message and return as true
+    nameError.style.display = 'block';
     return true;
   }
 }
-nameInput.addEventListener('input', (e) => IsValidName());
 
-const emailInput = document.getElementById('mail');
-const emailError = document.createElement('h2');
-emailInput.previousElementSibling.appendChild(emailError); 
+const emailInput = document.getElementById('mail'); // reference to DOM
+const emailError = document.createElement('h2'); // create text element to hold error messages
+emailInput.previousElementSibling.appendChild(emailError); // attach error message before input
 function isValidEmail() {
   if (/([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(emailInput.value) === false && emailInput.value.length > 0) {
     emailError.innerHTML = '*Please enter a valid email address - For example: jong@teamtreehouse.com'
@@ -203,11 +201,10 @@ function isValidEmail() {
   }
 
 }
-emailInput.addEventListener('input', (e) => isValidEmail());
 
-const activityError = document.createElement('h2');
-const activityBox = document.querySelector('.activities input');
-price.previousElementSibling.appendChild(activityError);
+const activityError = document.createElement('h2'); // create text element to hold error messages
+const activityBox = document.querySelector('.activities input'); // reference to the check box input
+price.previousElementSibling.appendChild(activityError); // attach error mesage before price
 
 function isValidActivities() {
   const activityChecked = document.querySelectorAll(" [type='checkbox']:checked" );
@@ -223,7 +220,6 @@ function isValidActivities() {
   } 
 }
 
-activity.addEventListener('input', (e) => isValidActivities());
 
 
 const ccError = document.createElement('h2');
@@ -246,7 +242,6 @@ function isValidCC() {
     return false;
   }
 }
-ccNumberInput.addEventListener('input', (e) => isValidCC());
 
 const zipError = document.createElement('h2');
 const zipInput = document.getElementById('zip');
@@ -267,7 +262,6 @@ function isValidZip() {
     return false;
   }
 }
-zipInput.addEventListener('input', (e) => isValidZip());
 
 const cvvError = document.createElement('h2');
 const cvvInput = document.getElementById('cvv');
@@ -289,98 +283,34 @@ function isValidCVV() {
     return false;
   }
 }
+
+// EVENT HANDLERS
+nameInput.addEventListener('input', (e) => IsValidName());
+emailInput.addEventListener('input', (e) => isValidEmail()); 
+activity.addEventListener('input', (e) => isValidActivities());
+ccNumberInput.addEventListener('input', (e) => isValidCC());
+zipInput.addEventListener('input', (e) => isValidZip());
 cvvInput.addEventListener('input', (e) => isValidCVV());
 
+// MASTER VALIDATOR
 function isValidMaster() {
   if (isValidName() == false || isValidEmail() == false || isValidActivities() == false || isValidCC() == false || isValidZip() == false || isValidCVV() == false) {
-    isValidName();
-    isValidEmail();
-    isValidActivities();
-    isValidCC();
-    isValidZip();
-    isValidCVV();
+    console.log(isValidName());
+    console.log(isValidEmail());
+    console.log(isValidActivities());
+    console.log(isValidCC());
+    console.log(isValidZip());
+    console.log(isValidCVV());
     return false;
   } else {
-    return true;
+    return true; // returns true only if all criteria is true
   }
 }
 
+//SUBMIT BUTTON
 const registerButton = document.getElementsByTagName('button')[0];
 registerButton.addEventListener('click', (e) => {
   if(isValidMaster() === false) {
     e.preventDefault();
   }
 });
-
-     /**
-      * Form validation messages
-      * Provide some kind of indication when there’s a validation error. 
-      * The field’s borders could turn red, for example, or even better for the user would be if a red text message appeared near the field.
-      * The following fields should have some obvious form of an error indication:
-      * Name field
-      * Email field
-      * Register for Activities checkboxes (at least one must be selected)
-      * Credit Card number (Only if Credit Card payment method is selected)
-      * Zip Code (Only if Credit Card payment method is selected)
-      * CVV (Only if Credit Card payment method is selected)
-      * Note: Error messages or indications should not be visible by default. 
-      * They should only show upon submission, or after some user interaction.
-
-      Note: Avoid use alerts for your validation messages.
-
-      Note: If a user tries to submit an empty form, there should be an error indication or message displayed for the name field, 
-      the email field, the activity section, and the credit card fields if credit card is the selected payment method.
-      */
-
-//
-
-/**
- * Form works without JavaScript - Progressive Enhancement
- * The user should still have access to all form fields and payment information if JS isn't working for whatever reason. 
- * For example, when the JS is removed from the project:
- * The “Other” text field under the "Job Role" section should be visible
- * All information for Bitcoin, PayPal or Credit Card payments should be visible.
- */
-
- /**
-  * CSS styles
-  * It is not required, but you are encouraged to experiment with things like the color, background color, 
-  * font, transitions, animations, box shadows and text shadows. 
-  * So dive into the CSS file and see if you can make this project your own with a few adjustments to the styles. 
-  * But the basic layout and positioning of elements should not be changed.
-  */
-
- // Add good code comments
-
- /**
-  * Cross-Browser consistency:
-  * Google Chrome has become the default development browser for most developers. 
-  * With such a selection of browsers for users to choose from, it's a good idea to get in the habit of testing your projects in all modern browsers.
-  */
-
-  //EXTRA CREDIT
-
-//   T Shirt Section
-// Hide the "Color" label and select menu until a T-Shirt design is selected from the "Design" menu.
-
-/**
- * Conditional Error Message
- * Program at least one of your error messages so that more information is provided depending on the error. 
- * For example, if the user hasn’t entered a credit card number and the field is completely blank, 
- * the error message reads “Please enter a credit card number.” 
- * If the field isn’t empty but contains only 10 numbers, 
- * the error message reads “Please enter a number that is between 13 and 16 digits long.”
- */
-
- /**
-  * Real-time Error Messages
-  * Program your form so that it provides a real-time validation error message for at least one text input field. 
-  * Rather than providing an error message on submit,
-  *  your form should check for errors and display messages as the user begins typing inside a text field. 
-  * For example, if the user enters an invalid email address, the error appears as the user begins to type,
-  *  and disappears as soon as the user has entered a complete and correctly formatted email address. 
-  * You must accomplish this with your own JavaScript code. Do not rely on HTML5's built-in email validation.
-  * NOTE: If you implement the above exceeds requirements in your form, 
-  * make sure you detail in your submission notes which input will have different error messages depending on the error, 
-  * and which input will have "real time" validation messages, so your reviewer won't miss them by accident.
-  */
