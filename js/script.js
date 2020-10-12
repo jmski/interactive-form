@@ -285,7 +285,7 @@ function isValidCVV() {
 }
 
 // EVENT HANDLERS
-nameInput.addEventListener('input', (e) => IsValidName());
+nameInput.addEventListener('input', (e) => isValidName());
 emailInput.addEventListener('input', (e) => isValidEmail()); 
 activity.addEventListener('input', (e) => isValidActivities());
 ccNumberInput.addEventListener('input', (e) => isValidCC());
