@@ -17,17 +17,25 @@ button {
 body {
   font: 1em/1.5;
   color: rgba(6, 49, 68, 0.9);
-	background: #CDE0FB;
+	background: #EAEAEA;
 }
 
 header {
 	text-align: center;  
+	background: #28B463;
+	margin-top: 10px;
+	border-radius: 15px;
+	box-shadow: -5px 5px 0px #D5D8DC;
 }
-
+ span {
+	 font-size: 3.5em;
+	 color: #000;
+ }
 h1 {
-	font-size: 2.5em;
+	font-size: 4.5em;
 	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.85);
 	margin: 0;
+	color: #FFF;
 }
 
 a {
@@ -40,9 +48,10 @@ a {
 
 form {
 	padding: .875em 1.875em 1.875em;
-	background: #9BBEEF;
-	border: 2px solid rgba(8, 63, 87, 0.6);
-	border-radius: 3px;
+	background: #FFF;
+	border: 2px solid rgba(56, 103, 54, 1);
+	border-radius: 15px;
+	box-shadow: -5px 5px 0px #D5D8DC;
 }
 
 fieldset,
@@ -50,6 +59,7 @@ legend,
 button {
 	padding: 0;
 	border: none;
+
 }
 
 fieldset {
@@ -58,14 +68,15 @@ fieldset {
 
 legend,
 button {
-	font-size: 1.25em;	
+	font-size: 2.25em;
+	color: #284E26;	
 }
 
 legend {
 	font-weight: bold;
 	padding-top: .5em;
-	border-top: 2px solid rgba(8, 63, 87, 0.6);
-	margin-bottom: 1.125em;
+	border-top: 2px solid rgba(56, 103, 54, 1);
+	margin-bottom: .525em;
 }
 
 input[type="text"],
@@ -89,15 +100,15 @@ input {
 	font-size: 1em;
 	font-weight: 500;
 	padding: .8em;
-	background: #e9f6fb;
-	border: 2px solid rgb(111, 157, 220);
+	background: #CFE3CE;
+	border: 2px solid rgb(113, 175, 110);
 	border-radius: 3px;
 	outline: none;
 }
 
 input:focus {
 	background: #fff;
-	border-color: #5e97b0;
+	border-color: #71AF6E;
 	transition: border-color .4s, background-color .4s;
 }
 
@@ -109,16 +120,16 @@ input[type="radio"] {
 button {
 	color: #fff;
 	padding: .55em 1.25em;
-	background: #083f57;
-	margin: 1.25em 0 .5em;
+	background: #CFE3CE;
+	margin: 0.25em 0 .5em;
 	cursor: pointer;
-	border: 2px solid black;
-	border-radius: 4px;
+	border: 2px solid rgb(113, 175, 110);
+	border-radius: 15px;
 	transition: all 0.5s;
 }
 
 button:hover {
-	background: #6F9DDC;
+	background: #28B463;
 }
 
 input, 
@@ -126,34 +137,6 @@ select,
 option {
 	font-family: 'roboto', sans-serif;
 }
-
-span {
-	border-radius: 5px;
-	display: none;
-	font-size: 1.3em;
-	text-align: center;
-	position: absolute;
-	background: #2F558E;
-	left: 105%;
-	top: 25px;
-	width: 160px;
-	padding: 7px 10px;
-	color: #fff;
-  }
-span:after {
-	right: 100%;
-	top: 50%;
-	border: solid transparent;
-	content: " ";
-	height: 0;
-	width: 0;
-	position: absolute;
-	pointer-events: none;
-	border-color: rgba(136, 183, 213, 0);
-	border-right-color: #2F558E;
-	border-width: 8px;
-	margin-top: -8px;
-  }
 
 /* ================================= 
   Page Styles

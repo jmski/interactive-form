@@ -5,7 +5,9 @@ FSJS Project 3 - Interactive form
 
 /*** 
  * Hello,
- * Thank you for taking the time to look at my code.
+ * Thank you for taking the time to look at my code. 
+ * There are a lot of areas that can be optimized but I'm not confident in refactoring at this time. 
+ * I will come back to this project once I have a better understanding of the process.
  * I am aiming for exceeds grade
  * - Jon
 */
@@ -33,14 +35,14 @@ const shirtColor = document.getElementById('color');
 const shirtColorOptions = shirtColor.children; // reference to all children
 const placeholder = document.createElement('option'); //create option tag
 shirtColor.insertBefore(placeholder, shirtColorOptions[0]); //insert placeholder at the top of the drop down menu
-placeholder.text ='Please select a T-shirt theme'; // text value
+placeholder.textContent ='Please select a T-shirt theme'; // text value inside placeholder
 placeholder.value ='select color';
 shirtColor.style.display = 'none';  // hide color menu
 shirtDiv.style.display = 'none'; // hide color label
 
-// this loop hides all of the color options
+// this loop hides all of the color options intially
 for(let i = 0; i < shirtColorOptions.length; i++) {
-  shirtColorOptions[i].style.display = 'none'; // hide all options
+  shirtColorOptions[i].style.display = 'none';
 
 shirtDesign.addEventListener('change', (e) => {
   // if the user selects "Theme - JS Puns" then the color menu should only display "Cornflower Blue," "Dark Slate Grey," and "Gold."
@@ -91,7 +93,7 @@ shirtDesign.addEventListener('change', (e) => {
           shirtColorOptions[i].style.display = 'none';
       }
     }
-  } else { // if there theme is deselected, hide everything 
+  } else { // if the theme is deselected, hide everything 
     shirtColorOptions[i].style.display = 'none'; // hides color menu options
     shirtColor.style.display = 'none';  // hide color menu
     shirtDiv.style.display = 'none'; // hide color label
@@ -119,7 +121,7 @@ activity.addEventListener('change', (e) => {
 
   const activityInput = document.querySelectorAll('.activities input'); // reference to all checkbox input
   for (i = 0; i <activityInput.length; i++) {
-    // check if box is ticked && activity has the same day and time && If target activity is NOT the same event
+    // check if box is ticked && activity has the same day and time && If target activity is NOT the same event  (wont disable itself)
     if (e.target.checked === true && e.target.dataset.dayAndTime === activityInput[i].dataset.dayAndTime && e.target.name !== activityInput[i].name) {
       activityInput[i].disabled = true; // disable checkbox
       activityInput[i].parentNode.style.color = 'grey'; //grey out the conflicting options
@@ -135,9 +137,8 @@ activity.addEventListener('change', (e) => {
 // the credit card payment option is selected by default
 const paymentMethod = document.getElementById('payment'); // reference the payment menu
 const creditCardDiv = document.getElementById('credit-card'); // reference to credit card div
-creditCardDiv.style.display = 'block'; 
-document.querySelector("[value='credit card']").selected = true;
-document.querySelector("[value='select method']").disabled = true;
+document.querySelector("[value='credit card']").selected = true; // set credit card to default payment option
+document.querySelector("[value='select method']").disabled = true; // disable so user cannot select
 
 const paypalDiv = document.getElementById('paypal'); // paypal div
 paypalDiv.style.display = 'none'; // hide paypal div by default
@@ -151,14 +152,17 @@ paymentMethod.addEventListener('change', (e) => {
     paypalDiv.style.display = 'block'; // show paypal div
     creditCardDiv.style.display = 'none';
     bitcoinDiv.style.display = 'none';
+    return;
+  } else if (e.target.value == 'bitcoin') {
+    bitcoinDiv.style.display = 'block'; // show bitcoin div
+    paypalDiv.style.display = 'none';
+    creditCardDiv.style.display = 'none';
+    return;
   } else if (e.target.value == 'credit card') {
     creditCardDiv.style.display = 'block'; // show credit card div
     paypalDiv.style.display = 'none';
     bitcoinDiv.style.display = 'none';
-  } else if (e.target.value == 'bitcoin') {
-    bitcoinDiv.style.display = 'block'; // show bitcoin div
-    paypalDiv.style.display = 'none';
-    creditCardDiv.display = 'none';
+    return;
   }
 });
   
@@ -167,7 +171,7 @@ nameInput.previousElementSibling.appendChild(nameError); // attach error message
 
 // this function checks to see if name is valid
 function isValidName() {
-  if (/^[a-zA-Z\-]+$/.test(nameInput.value) === false && nameInput.value.length > 0) { // input doesn't match expression but has input
+  if (/^[a-zA-Z\-]+$/.test(nameInput.value) === false && nameInput.value.length > 0) { // input doesn't match regular expression && user has entered input
     nameError.innerHTML = '*Please enter a valid name';
     nameError.style.color = 'black';
     nameError.style.display = 'block';
@@ -185,17 +189,19 @@ function isValidName() {
 const emailInput = document.getElementById('mail'); // reference to DOM
 const emailError = document.createElement('h2'); // create text element to hold error messages
 emailInput.previousElementSibling.appendChild(emailError); // attach error message before input
+
+// this function validates email
 function isValidEmail() {
-  if (/([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(emailInput.value) === false && emailInput.value.length > 0) {
+  if (/([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(emailInput.value) === false && emailInput.value.length > 0) { // input doesn't match regular expression && user has entered input
     emailError.innerHTML = '*Please enter a valid email address - For example: jong@teamtreehouse.com'
     emailError.style.color = 'black';
     return false;
-  } else if (emailInput.value.length === 0) {
+  } else if (emailInput.value.length === 0) { // if input is empty
     emailError.innerHTML = "*Email address is required";
     emailError.style.color = 'red';
     emailError.style.display = 'block';
   return false;  
-} else if (/([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(emailInput.value) === true && emailInput.value) {
+} else if (/([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(emailInput.value) === true && emailInput.value) { // if input matches criteria, hide error message and return true
     emailError.style.display = 'none';
     return true;
   }
@@ -204,11 +210,12 @@ function isValidEmail() {
 
 const activityError = document.createElement('h2'); // create text element to hold error messages
 const activityBox = document.querySelector('.activities input'); // reference to the check box input
-price.previousElementSibling.appendChild(activityError); // attach error mesage before price
+price.previousElementSibling.appendChild(activityError); // attach error message before price
 
+// this function checks to see if at least one check box is ticked
 function isValidActivities() {
-  const activityChecked = document.querySelectorAll(" [type='checkbox']:checked" );
-  if (activityChecked.length == 0) {
+  const activityChecked = document.querySelectorAll(" [type='checkbox']:checked" ); // check for attribute checkbox that checked == true
+  if (activityChecked.length == 0) { // if user deselects an activity send error
     activityError.style.display = 'block';
     activityError.style.color = 'red';
     activityError.innerHTML = '*Please choose at least one activity';
@@ -220,22 +227,21 @@ function isValidActivities() {
   } 
 }
 
+const ccError = document.createElement('h2'); // create text element to hold error messages
+const ccNumberInput = document.getElementById('cc-num'); // reference to the credit card number input
+ccNumberInput.previousElementSibling.appendChild(ccError); // attach error message before input
 
-
-const ccError = document.createElement('h2');
-const ccNumberInput = document.getElementById('cc-num');
-ccNumberInput.previousElementSibling.appendChild(ccError);
-
+// this function checks to see if the user has entered a 13 or 16-digit credit card number
 function isValidCC() {
-  if (/^\d{13,16}$/.test(ccNumberInput.value) == true) {
+  if (/^\d{13,16}$/.test(ccNumberInput.value) == true || paymentMethod.value !== "credit card") { // if ccNumberInput == true OR not paying by credit card(paypal or bitcoin)
     ccError.style.display = 'none';  
   return true;
-  } else if (/^\d{13,16}$/.test(ccNumberInput.value) == false && ccNumberInput.value.length > 0) {
+  } else if (/^\d{13,16}$/.test(ccNumberInput.value) == false && ccNumberInput.value.length > 0) { // if criteria not met but user has entered input
     ccError.innerHTML = '*Please enter your 13 or 16 digit credit card number.';
     ccError.style.color = 'black';
     ccError.style.display = 'block';
     return false;
-  } else if (ccNumberInput.value.length == 0) {
+  } else if (ccNumberInput.value.length == 0 ) { // if input is empty
     ccError.innerHTML = '*Credit card number is required.';
     ccError.style.color = 'red';
     zipError.style.display ='block';
@@ -243,12 +249,13 @@ function isValidCC() {
   }
 }
 
-const zipError = document.createElement('h2');
-const zipInput = document.getElementById('zip');
-zipInput.previousElementSibling.appendChild(zipError);
+const zipError = document.createElement('h2'); //create text element to hold error messages
+const zipInput = document.getElementById('zip'); //reference to the zip input
+zipInput.previousElementSibling.appendChild(zipError); // append error message before input
 
+// this function validates whether a 5-digit number has been enter OR if paypal or bitcoin option has been selected
 function isValidZip() {
-  if (/^\d{5}$/.test(zipInput.value) == true) {
+  if (/^\d{5}$/.test(zipInput.value) == true || paymentMethod.value !== "credit card") {
     zipError.style.display = 'none';
     return true;
   } else if (/^\d{5}$/.test(zipInput.value) == false && zipInput.value.length > 0) {
@@ -263,20 +270,21 @@ function isValidZip() {
   }
 }
 
-const cvvError = document.createElement('h2');
-const cvvInput = document.getElementById('cvv');
-cvvInput.previousElementSibling.appendChild(cvvError);
+const cvvError = document.createElement('h2'); // create terxt element to hold error messages
+const cvvInput = document.getElementById('cvv'); // reference to the zip input
+cvvInput.previousElementSibling.appendChild(cvvError); // append error message before input
 
+// this function validates whether a 3-digit number has been enter OR if paypal or bitcoin option has been selected
 function isValidCVV() {
-  if (/^\d{3}$/.test(cvvInput.value) == true) {
+  if (/^\d{3}$/.test(cvvInput.value) == true || paymentMethod.value !== "credit card") {
     cvvError.style.display = 'none';
     return true;
-  } else if (/^\d{3}$/.test(cvvInput.value) == false && cvvInput.value.length > 0) {
+  } else if (/^\d{3}$/.test(cvvInput.value) == false && cvvInput.value.length > 0) { // if criteria not met but user has entered input
     cvvError.innerHTML = 'Please enter your 3 digit CVV code';
     cvvError.style.display ='block'
     cvvError.style.color = 'black';
     return false;
-  } else if (cvvInput.value.length == 0) {
+  } else if (cvvInput.value.length == 0) { // if input is empty
     cvvError.innerHTML = '*CVV is required';
     cvvError.style.color = 'red';
     cvvError.style.display = 'block';
@@ -293,6 +301,7 @@ zipInput.addEventListener('input', (e) => isValidZip());
 cvvInput.addEventListener('input', (e) => isValidCVV());
 
 // MASTER VALIDATOR
+// this function will check if any functions listed return false. 
 function isValidMaster() {
   if (isValidName() == false || isValidEmail() == false || isValidActivities() == false || isValidCC() == false || isValidZip() == false || isValidCVV() == false) {
     console.log(isValidName());
@@ -311,6 +320,6 @@ function isValidMaster() {
 const registerButton = document.getElementsByTagName('button')[0];
 registerButton.addEventListener('click', (e) => {
   if(isValidMaster() === false) {
-    e.preventDefault();
+    e.preventDefault(); // only refresh when true
   }
 });
