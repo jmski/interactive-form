@@ -171,7 +171,7 @@ nameInput.previousElementSibling.appendChild(nameError); // attach error message
 
 // this function checks to see if name is valid
 function isValidName() {
-  if (/^[a-zA-Z\-]+$/.test(nameInput.value) === false && nameInput.value.length > 0) { // input doesn't match regular expression && user has entered input
+  if (/^(?!\s)[a-zA-Z '.-]*$/.test(nameInput.value) === false && nameInput.value.length > 0) { // input doesn't match regular expression && user has entered input
     nameError.innerHTML = '*Please enter a valid name';
     nameError.style.color = 'black';
     nameError.style.display = 'block';
@@ -179,9 +179,10 @@ function isValidName() {
   } else if (nameInput.value.length == 0) { // if input is empty
     nameError.innerHTML = '*Name is required';
     nameError.style.color = 'red';
-    return false;
-  } else if (/^[a-zA-Z\-]+$/.test(nameInput.value) ===  true && nameInput.value) { // if input matches criteria hide error message and return as true
     nameError.style.display = 'block';
+    return false;
+  } else if (/^(?!\s)[a-zA-Z '.-]*$/.test(nameInput.value) === true && nameInput.value) { // if input matches criteria hide error message and return as true
+    nameError.style.display = 'none';
     return true;
   }
 }
